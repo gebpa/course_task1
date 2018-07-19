@@ -3,12 +3,12 @@
 
 ( check whether a number is prime or not, if it is prime, push 1 to datastack, else push 0 )
 : isPrime 
-	dup 3 < if 1
+	dup 3 < if drop 1
 		else dup 2 
 			do dup r@  % 0 =
 					if 1 - r> drop >r 0 
 					else dup r@ 1 + =
-							    if 1
+							    if drop 1
 							    else
 							    then 
 					then 
@@ -41,4 +41,16 @@
 ( pointerToStr1 pointerToStr2 -- pointerToResult )
 : concat allocForConcat dup rot dup count 0 do copyChar loop drop rot dup count 1 + 0 do copyChar loop drop drop dup prints ;
 
-
+( check whether a number can be written as a product of prime numbers, where every factor is unique, if number is prime, print "number is prime", if every factor is unique push to data stack 1, else 0 )
+: isPrimarn dup 1 swap rot isPrime 
+			if drop m" number is prime" prints cr drop
+			else dup 2 / 1 + 2 
+								do dup r@ % 0 = 
+										if dup r@ / r@ % 0 = 
+												    if r> r@ 1 - >r drop drop drop 0 
+												    then 
+										then  
+								loop dup 0 = 
+									if else drop
+									then
+			then ;
